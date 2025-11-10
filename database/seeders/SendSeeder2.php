@@ -13,13 +13,6 @@ class SendSeeder2 extends Seeder
 
     public function run()
     {
-        DB::table('list_salaries')->insert([
-            'id' => 1,
-            'name' => "day",
-        ]);
-        DB::table('list_salaries')->insert([
-            'id' => 2,
-            'name' => "month",
-        ]);
+        //
     }
 }
