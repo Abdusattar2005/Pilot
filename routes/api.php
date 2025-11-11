@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\Company\OrderController;
 use App\Http\Controllers\Api\V1\OrderController as OC;
 use App\Http\Controllers\Api\V1\UserController;
-
+use App\Http\Controllers\Api\AdvertisementController;
 /*
 'middleware' => 'throttle:3,10'
 Этот код позволяет пользователю с одного IP-адреса выполнять по 3 запроса в течении каждых 10 минут // 429 код
@@ -85,4 +85,9 @@ Route::group(['prefix' => 'info'], function ($router) {
             'list_salary' => \App\Models\ListSalary::all(),
         ]);
     });
+});
+
+Route::prefix('ads')->group(function () {
+    Route::get('/banners', [AdvertisementController::class, 'banners']);
+    Route::get('/text-ads', [AdvertisementController::class, 'textAds']); 
 });

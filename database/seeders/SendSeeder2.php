@@ -15,11 +15,11 @@ class SendSeeder2 extends Seeder
     {
         DB::table('list_salaries')->insert([
             'id' => 1,
-            'name' => "day",
+            'name' => "Не активно",
         ]);
         DB::table('list_salaries')->insert([
             'id' => 2,
-            'name' => "month",
+            'name' => "Активно",
         ]);
     }
-}
+} 
