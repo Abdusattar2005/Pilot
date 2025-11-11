@@ -13,6 +13,13 @@ class SendSeeder2 extends Seeder
 
     public function run()
     {
-        //
+        DB::table('list_salaries')->insert([
+            'id' => 1,
+            'name' => "Не активно",
+        ]);
+        DB::table('list_salaries')->insert([
+            'id' => 2,
+            'name' => "Активно",
+        ]);
     }
-}
+} 

@@ -10,11 +10,11 @@ use Carbon\Carbon;
 class AdvertisementController extends Controller
 {
     /**
-     * /api/ads/banners
+     * GET /api/ads/banners
      */
     public function banners()
     {
-        $baseUrl = url('/storage/files/advertising/banner');
+        $baseUrl = url('/storage/files');
 
         $banners = DB::table('advertisements')
             ->select(
@@ -22,9 +22,10 @@ class AdvertisementController extends Controller
                 'title',
                 DB::raw("CONCAT('$baseUrl/', banner) as image"),
                 'link',
-                'description'
+                'description',
+                DB::raw("CASE WHEN status = 2 THEN 'Активно' ELSE 'Не активно' END as status")
             )
-            ->where('status', 2) 
+            ->where('status', 2)
             ->whereDate('start_date', '<=', Carbon::today())
             ->where(function ($q) {
                 $q->whereNull('end_date')
@@ -40,20 +41,26 @@ class AdvertisementController extends Controller
     }
 
     /**
-     * /api/ads/text-ads?type=vacancy
-     * /api/ads/text-ads?type=resume
+     * GET /api/ads/text-ads?type=vacancy|resume
      */
-   public function textAds(Request $request)
+    public function textAds(Request $request)
     {
         $type = $request->query('type');
 
         $query = DB::table('text_ads')
-            ->select('id', 'title', 'text', 'link', 'type')
+            ->select(
+                'id',
+                'title',
+                'text',
+                'link',
+                'type',
+                DB::raw("CASE WHEN status = 2 THEN 'Активно' ELSE 'Не активно' END as status")
+            )
             ->where('status', 2)
             ->whereDate('start_date', '<=', Carbon::today())
             ->where(function ($q) {
                 $q->whereNull('end_date')
-                ->orWhereDate('end_date', '>=', Carbon::today());
+                  ->orWhereDate('end_date', '>=', Carbon::today());
             });
 
         if ($type) {
