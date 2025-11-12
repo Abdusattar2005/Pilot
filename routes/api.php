@@ -90,4 +90,5 @@ Route::group(['prefix' => 'info'], function ($router) {
 Route::prefix('ads')->group(function () {
     Route::get('/banners', [AdvertisementController::class, 'banners']);
     Route::get('/text-ads', [AdvertisementController::class, 'textAds']); 
+    Route::get('/feed', [AdvertisementController::class, 'adsFeed']);
 });
