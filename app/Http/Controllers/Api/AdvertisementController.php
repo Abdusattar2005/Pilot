@@ -84,8 +84,8 @@ class AdvertisementController extends Controller
             'data' => $ads
         ]);
     }
-    public function adsFeed()
-{
+    public function adsFeed(Request $request)
+    {
     $baseUrl = url('/storage/files');
 
     $banners = DB::table('advertisements')
@@ -107,9 +107,14 @@ class AdvertisementController extends Controller
         ->get();
 
 
-    $positions = DB::table('list_positions')
-        ->select('id', 'name', 'role_id')
-        ->orderBy('id', 'asc')
+    $positions = DB::table('user_positions')
+        ->join('list_positions', 'user_positions.position_id', '=', 'list_positions.id')
+        ->select('user_positions.id',
+                 'user_positions.user_id',
+                 'user_positions.position_id',
+                 'list_positions.name as position_name'
+                 )
+        ->orderBy('user_positions.id', 'asc')
         ->get()
         ->toArray();
 
@@ -149,8 +154,9 @@ class AdvertisementController extends Controller
             $feed[] = [
                 'type' => 'position',
                 'id' => $pos->id,
-                'name' => $pos->name,
-                'role_id' => $pos->role_id,
+                'user_id' => $pos->user_id,
+                'position_id' => $pos->position_id,
+                'position_name' => $pos->position_name,
             ];
             $posIndex++;
         }
